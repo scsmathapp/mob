@@ -4,10 +4,6 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-				title: Text('Sri Chaitanya Saraswat Math'),
-				backgroundColor: Colors.deepOrange[300],
-			),
       body: Column(
         children: <Widget>[
           Row(
