@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +29,6 @@ class CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin<C
   List<String> week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   List<List<Map>> month = [];
   SharedPreferences prefs;
-  FlutterLocalNotificationsPlugin fltrNotification;
 
   List<Map> months = [
     {'name': 'January', 'days': 31},
@@ -194,16 +192,6 @@ class CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin<C
       }
     }
   }
-
-  Future _showNotification() async {
-    var androidDetails = new AndroidNotificationDetails("Vaishnava_App", "SCSMath", "Notif Channel", icon: 'app_icon', importance: Importance.Max);
-    var iSODetails = new IOSNotificationDetails();
-    var generalNotificationDetails = new NotificationDetails(androidDetails, iSODetails);
-
-    // await fltrNotification.show(0, "Task", "You created a Task", generalNotificationDetails, payload: "Task");
-    var scheduledTime = DateTime.now().add(Duration(seconds : 5));
-    fltrNotification.schedule(0, "Today", "Vijaya Ekadashi", scheduledTime, generalNotificationDetails);
-  }
   
   @override
   void initState() {
@@ -221,11 +209,6 @@ class CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin<C
     selectedDate = today;
     getMonth(today);
     getLocation();
-    var androidInitilize = new AndroidInitializationSettings('app_icon');
-    var iOSinitilize = new IOSInitializationSettings();
-    var initilizationsSettings = new InitializationSettings(androidInitilize, iOSinitilize);
-    fltrNotification = new FlutterLocalNotificationsPlugin();
-    fltrNotification.initialize(initilizationsSettings);
   }
 
   @override
@@ -372,7 +355,7 @@ class CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin<C
         )
       ],),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showNotification,
+        onPressed: locationDialog,
         child: Icon(Icons.location_on),
         backgroundColor: Colors.deepOrange[300],
       ),
